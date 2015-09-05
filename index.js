@@ -7,10 +7,16 @@ var fs   = require('fs')
 
 	// call args
 	, args       = process.argv.slice(2)
+/*
 	, inDirName  = args[0]
 	, inDirPath  = path.join(process.env.PWD, inDirName)
 	, outDirName = args[1] 
 	, outDirPath = path.join(process.env.PWD, outDirName)
+*/
+
+	, inDirPath  = args[0] // just lazy absolute paths for now
+	, outDirPath = args[1] // just lazy absolute paths for now
+
 	, paths      = [inDirPath, outDirPath]
 
 	// the magic
@@ -21,7 +27,10 @@ var fs   = require('fs')
 // check if both the in and out directories exist
 paths.forEach(function (value, key) {
 	fs.stat(value, function(err, stats) {
-		if (err) throw new Error(err)
+		if (err) {
+			console.warn(err)
+			throw new Error(err)
+		}
 
 		if (stats.isDirectory()) {
 			neededFiles(value)
